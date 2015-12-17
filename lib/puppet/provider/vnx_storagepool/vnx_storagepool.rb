@@ -20,13 +20,11 @@ Puppet::Type.type(:vnx_storagepool).provide(:vnx_storagepool) do
   end
 
   def get_current_properties
-    debug("get_current_properties")
     storagepool = run(["storagepool", "-list", "-name", resource[:name]])
     self.class.get_storagepool_properties(storagepool)
   end
 
   def self.get_storagepool_properties storagepool
-    debug("get_storagepool_propetries")
     sp_info = { :ensure => :present }
     sp_lines = storagepool.split("\n")
     while line = sp_lines.shift
@@ -273,7 +271,7 @@ Puppet::Type.type(:vnx_storagepool).provide(:vnx_storagepool) do
   end
 
   def create_storagepool
-    debug("create_storagepool")
+    debug("XXXXXXXXXXXXXX " + resource[:name] + resource[:disks])
     create_pool = ["storagepool", "-create", "-name", resource[:name], "-disks", *resource[:disks]]
     create_pool << "-rtype" << resource[:raid_type] if resource[:raid_type]
     create_pool << "-rdrivecount" << resource[:rdrive_count] if resource[:rdrive_count]
