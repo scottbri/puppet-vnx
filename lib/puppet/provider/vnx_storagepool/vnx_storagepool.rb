@@ -226,6 +226,7 @@ Puppet::Type.type(:vnx_storagepool).provide(:vnx_storagepool) do
   # end
 
   def set_storagepool
+    debug("XXXXXX def set_storagepool" + resource[:name] + " " + @property_flush[:disks].join(",") + "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX")
     run ["storagepool", "-cancelExpand", "-name", resource[:name]] if resource[:cancel_expand] == :true
     # raise error if resource disks less than current
     raise ArgumentError, "can't remove storagepool disks\ncurrent disks:#{current_properties[:disks]}\nchange to:#{resource[:disks]}" if resource[:disks] && !(current_properties[:disks] - resource[:disks]).empty?
